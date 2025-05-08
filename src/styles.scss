@@ -1,1 +1,17 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html, body, app-root {
+    height: 100%;
+  }
+
+  .transition-all {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .expanded {
+    width: 400px !important;
+  }

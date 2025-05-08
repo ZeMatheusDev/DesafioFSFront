@@ -1,0 +1,99 @@
+<div class="min-vh-100 d-flex align-items-center justify-content-center" style="background-color: #f8f9fa;">
+
+  <div class="card bg-white bg-opacity-75 rounded-4 shadow" style="max-width: 500px; width: 100%;">
+    <div class="card-body p-4">
+      <h2 class="card-title text-center mb-4">Crie sua conta</h2>
+
+      <form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()">
+
+        <div class="mb-3">
+          <label for="name" class="form-label">Nome completo</label>
+          <input
+            id="name"
+            type="text"
+            formControlName="name"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f['name'].errors }"
+            placeholder="Digite seu nome"
+            required
+          >
+          <div class="invalid-feedback">
+            <div *ngIf="f['name'].errors?.['required']">Nome é obrigatório.</div>
+            <div *ngIf="f['name'].errors?.['maxlength']">Nome não pode exceder 255 caracteres.</div>
+            <div *ngIf="f['name'].errors?.['serverError']">{{ f['name'].errors['serverError'] }}</div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">E‑mail</label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
+            placeholder="exemplo@email.com"
+          >
+          <div class="invalid-feedback">
+            <div *ngIf="f['email'].errors?.['required']">E-mail é obrigatório.</div>
+            <div *ngIf="f['email'].errors?.['email']">Por favor, insira um e-mail válido.</div>
+            <div *ngIf="f['email'].errors?.['serverError']">{{ f['email'].errors['serverError'] }}</div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">Senha</label>
+            <div class="input-group">
+              <input
+                id="password"
+                [type]="showPassword ? 'text' : 'password'"
+                formControlName="password"
+                class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
+                placeholder="Digite sua senha"
+              >
+              <button
+                type="button"
+                class="btn btn-outline-secondary d-flex align-items-center"
+                (click)="togglePasswordVisibility()"
+                (mousedown)="$event.preventDefault()"
+              >
+                <i class="bi"
+                   [class.bi-eye]="!showPassword"
+                   [class.bi-eye-slash]="showPassword"
+                ></i>
+                <span class="ms-1">{{ showPassword ? 'Desver' : 'Ver' }}</span>
+              </button>
+              <div class="invalid-feedback">
+                <div *ngIf="f['password'].errors?.['required']">Senha é obrigatória.</div>
+                <div *ngIf="f['password'].errors?.['minlength']">Senha deve ter pelo menos 6 caracteres.</div>
+                <div *ngIf="f['password'].errors?.['serverError']">{{ f['password'].errors['serverError'] }}</div>
+              </div>
+            </div>
+
+          </div>
+          <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show">
+            {{ successMessage }}
+            <button type="button" class="btn-close" (click)="successMessage = ''"></button>
+          </div>
+          <div class="d-grid">
+            <button 
+              type="submit" 
+              class="btn btn-primary"
+              [disabled]="loading"
+            >
+              <span *ngIf="!loading">Criar conta</span>
+              <span *ngIf="loading">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Processando...
+              </span>
+            </button>
+          </div>
+  
+          <div class="text-center mt-3">
+            <a href="/" class="text-decoration-none">Já possui login? Entrar</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
