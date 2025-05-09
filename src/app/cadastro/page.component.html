@@ -20,7 +20,7 @@
           <div class="invalid-feedback">
             <div *ngIf="f['name'].errors?.['required']">Nome é obrigatório.</div>
             <div *ngIf="f['name'].errors?.['maxlength']">Nome não pode exceder 255 caracteres.</div>
-            <div *ngIf="f['name'].errors?.['serverError']">{{ f['name'].errors['serverError'] }}</div>
+            <div *ngIf="f['name'].errors?.['serverError']">{{ f['name'].errors?.['serverError'] }}</div>
           </div>
         </div>
 
@@ -37,63 +37,64 @@
           <div class="invalid-feedback">
             <div *ngIf="f['email'].errors?.['required']">E-mail é obrigatório.</div>
             <div *ngIf="f['email'].errors?.['email']">Por favor, insira um e-mail válido.</div>
-            <div *ngIf="f['email'].errors?.['serverError']">{{ f['email'].errors['serverError'] }}</div>
+            <div *ngIf="f['email'].errors?.['serverError']">{{ f['email'].errors?.['serverError'] }}</div>
           </div>
         </div>
 
         <div class="mb-3">
-            <label for="password" class="form-label">Senha</label>
-            <div class="input-group">
-              <input
-                id="password"
-                [type]="showPassword ? 'text' : 'password'"
-                formControlName="password"
-                class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
-                placeholder="Digite sua senha"
-              >
-              <button
-                type="button"
-                class="btn btn-outline-secondary d-flex align-items-center"
-                (click)="togglePasswordVisibility()"
-                (mousedown)="$event.preventDefault()"
-              >
-                <i class="bi"
-                   [class.bi-eye]="!showPassword"
-                   [class.bi-eye-slash]="showPassword"
-                ></i>
-                <span class="ms-1">{{ showPassword ? 'Desver' : 'Ver' }}</span>
-              </button>
-              <div class="invalid-feedback">
-                <div *ngIf="f['password'].errors?.['required']">Senha é obrigatória.</div>
-                <div *ngIf="f['password'].errors?.['minlength']">Senha deve ter pelo menos 6 caracteres.</div>
-                <div *ngIf="f['password'].errors?.['serverError']">{{ f['password'].errors['serverError'] }}</div>
-              </div>
-            </div>
-
-          </div>
-          <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show">
-            {{ successMessage }}
-            <button type="button" class="btn-close" (click)="successMessage = ''"></button>
-          </div>
-          <div class="d-grid">
-            <button 
-              type="submit" 
-              class="btn btn-primary"
-              [disabled]="loading"
+          <label for="password" class="form-label">Senha</label>
+          <div class="input-group">
+            <input
+              id="password"
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="password"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
+              placeholder="Digite sua senha"
             >
-              <span *ngIf="!loading">Criar conta</span>
-              <span *ngIf="loading">
-                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                Processando...
-              </span>
+            <button
+              type="button"
+              class="btn btn-outline-secondary d-flex align-items-center"
+              (click)="togglePasswordVisibility()"
+              (mousedown)="$event.preventDefault()"
+            >
+              <i class="bi"
+                 [class.bi-eye]="!showPassword"
+                 [class.bi-eye-slash]="showPassword"
+              ></i>
+              <span class="ms-1">{{ showPassword ? 'Desver' : 'Ver' }}</span>
             </button>
+            <div class="invalid-feedback">
+              <div *ngIf="f['password'].errors?.['required']">Senha é obrigatória.</div>
+              <div *ngIf="f['password'].errors?.['minlength']">Senha deve ter pelo menos 6 caracteres.</div>
+              <div *ngIf="f['password'].errors?.['serverError']">{{ f['password'].errors?.['serverError'] }}</div>
+            </div>
           </div>
-  
-          <div class="text-center mt-3">
-            <a href="/" class="text-decoration-none">Já possui login? Entrar</a>
-          </div>
-        </form>
-      </div>
+        </div>
+
+        <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show">
+          {{ successMessage }}
+          <button type="button" class="btn-close" (click)="successMessage = ''"></button>
+        </div>
+        
+        <div class="d-grid">
+          <button 
+            type="submit" 
+            class="btn btn-primary"
+            [disabled]="loading"
+          >
+            <span *ngIf="!loading">Criar conta</span>
+            <span *ngIf="loading">
+              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              Processando...
+            </span>
+          </button>
+        </div>
+
+        <div class="text-center mt-3">
+          <a href="/" class="text-decoration-none">Já possui login? Entrar</a>
+        </div>
+      </form>
     </div>
   </div>
+</div>

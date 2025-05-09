@@ -1,0 +1,33 @@
+select[multiple] {
+    border-radius: .5rem;
+    border: 1px solid #ced4da;
+    padding: .5rem;
+    background-color: #fff;
+    transition: border-color .15s;
+    cursor: pointer;
+  }
+  
+  select[multiple] option:hover {
+    background-color: #e9ecef;
+  }
+  
+  select[multiple]::-webkit-scrollbar {
+    width: 8px;
+  }
+  select[multiple]::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0,0,0,.1);
+  }
+  .form-select.form-select-lg {
+    padding: 0.75rem 0.75rem;        
+    height: calc(1.5em + 1.5rem + 2px); 
+    border-radius: 0.5rem;           
+    border: 1px solid #ced4da;       
+    background-color: #fff;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .form-select.form-select-lg:focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 .25rem rgba(13,110,253,.25);
+    outline: none;
+  }

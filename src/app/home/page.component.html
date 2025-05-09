@@ -1,26 +1,52 @@
 <div class="min-vh-100 d-flex" style="background-color: #f8f9fa;">
     <div class="bg-white shadow-sm vh-100 position-fixed start-0 transition-all"
-         style="width: 300px; overflow: hidden;"
-         (mouseenter)="isMenuExpanded = true"
-         (mouseleave)="isMenuExpanded = false"
-         [class.expanded]="isMenuExpanded">
+         style="width: 300px; overflow: hidden;">
          
-      <div class="p-4" style="min-width: 300px;">
+      <div class="p-4">
         <h3 class="mb-4">Login</h3>
-        
-        <form>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <div class="mb-3">
             <label class="form-label">E-mail</label>
-            <input type="email" class="form-control" placeholder="exemplo@email.com">
+            <input type="email" 
+                   formControlName="email"
+                   class="form-control"
+                   [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
+                   placeholder="exemplo@email.com">
+            
+            <div class="invalid-feedback">
+              <div *ngIf="submitted && f['email'].errors?.['required']">E-mail é obrigatório</div>
+              <div *ngIf="submitted && f['email'].errors?.['email']">Formato de e-mail inválido</div>
+            </div>
           </div>
   
           <div class="mb-3">
             <label class="form-label">Senha</label>
-            <input type="password" class="form-control" placeholder="Digite sua senha">
+            <input type="password" 
+                   formControlName="password"
+                   class="form-control"
+                   [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
+                   placeholder="Digite sua senha">
+            
+            <div class="invalid-feedback">
+              <div *ngIf="submitted && f['password'].errors?.['required']">Senha é obrigatória</div>
+              <div *ngIf="submitted && f['password'].errors?.['minlength']">Mínimo 6 caracteres</div>
+            </div>
+          </div>  
+  
+          <div *ngIf="errorMessage" class="alert alert-danger mb-3">
+            {{ errorMessage }}
           </div>
   
-          <button class="btn btn-primary w-100 mb-3">Entrar</button>
-          
+          <button type="submit"
+          class="btn btn-primary w-100 mb-3"
+          [disabled]="loading || (submitted && loginForm.invalid)">
+            <span *ngIf="!loading">Entrar</span>
+            <span *ngIf="loading">
+              <span class="spinner-border spinner-border-sm"></span>
+              Carregando...
+            </span>
+          </button>
+  
           <div class="text-center">
             <a href="/cadastro" class="text-decoration-none">
               Criar conta
@@ -29,6 +55,4 @@
         </form>
       </div>
     </div>
-
-
   </div>

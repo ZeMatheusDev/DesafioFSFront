@@ -1,0 +1,135 @@
+<div *ngIf="isLoading" class="d-flex justify-content-center align-items-center w-100 vh-100">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden"></span>
+  </div>
+</div>
+<div class="min-vh-100 d-flex" *ngIf="!isLoading"  style="background-color: #f8f9fa;">
+  <div class="bg-white shadow-sm vh-100 position-fixed start-0 transition-all" 
+  style="width: 300px; overflow: hidden;">
+  <div class="p-4 d-flex flex-column h-100">
+  <div class="mb-5">
+    <h3 class="mb-3"><a href="/">Dashboard</a></h3>
+    <div class="text-muted" *ngIf="authService.currentUser">
+      Bem-vindo, <br>
+      <strong class="text-dark">{{ authService.currentUser }}</strong>
+    </div>
+
+    <div style="margin-top: 100px;">
+      <a href="/clinicas" class="text-decoration-none text-dark d-flex align-items-center gap-2">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 229.957 229.957"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g>
+            <g>
+              <g>
+                <path d="M104.706,129.12h24.242v-16.162h16.162V88.715h-16.162V72.554h-24.242v16.162H88.544v24.242h16.162V129.12z M96.625,104.877v-8.081h16.162V80.635h8.081v16.162h16.161v8.08h-16.162v16.162h-8.081v-16.162H96.625z"/>
+                <rect x="23.897" y="137.2" width="28.283" height="8.081"/>
+                <rect x="23.897" y="153.362" width="28.283" height="8.081"/>
+                <rect x="23.897" y="169.523" width="28.283" height="8.081"/>
+                <rect x="177.433" y="137.2" width="28.283" height="8.081"/>
+                <rect x="177.433" y="153.362" width="28.283" height="8.081"/>
+                <rect x="177.433" y="169.523" width="28.283" height="8.081"/>
+                <path d="M221.877,197.807v-76.768h-52.525V32.15h20.202v-8.081h-20.202H60.261H40.059v8.081h20.202v88.889H7.736v76.768H0v8.081h7.736h52.525h8.081h24.242h44.444h24.242h8.081h52.525h8.081v-8.081H221.877z M60.261,197.806H15.817v-68.687h44.444V197.806z M128.948,197.806h-28.283v-32.323h28.283V197.806z M161.271,121.039v76.768h-24.242v-0.001v-40.404H92.584v40.404H68.342v-76.767V32.15h92.929V121.039z M213.796,197.806h-44.444v-68.687h44.444V197.806z"/>
+              </g>
+            </g>
+          </g>
+        </svg>
+        Clínicas
+      </a>
+    </div>
+  </div>
+
+  <nav class="flex-grow-1">
+  </nav>
+
+  <button class="btn btn-danger mt-auto" (click)="logout()">
+    <i class="bi bi-box-arrow-left me-2"></i>
+    Sair
+  </button>
+  </div>
+  </div>
+
+  <div class="flex-grow-1" style="margin-left: 300px; padding: 2rem;">
+    <div class="card shadow-sm rounded-2xl">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h5 class="card-title mb-0">Listagem de Clínicas</h5>
+          <a routerLink="/clinicas/cadastro" class="btn btn-primary">
+            <i class="bi bi-plus-circle me-2"></i> Nova Clínica
+          </a>
+        </div>
+
+        <div class="row g-3 mb-4">
+          <ng-container *ngFor="let f of filterFields">
+            <div [class.col-md]="f.col" class="col-12">
+              <ng-container [ngSwitch]="f.type">
+                <input *ngSwitchCase="'text'" type="text" class="form-control" [placeholder]="f.label"
+                       [(ngModel)]="filters[f.key]" (input)="applyFilters()">
+                <select *ngSwitchCase="'select'" class="form-select"
+                        [(ngModel)]="filters[f.key]" (change)="applyFilters()">
+                  <option value="">{{f.label}}</option>
+                  <option *ngFor="let o of f.options" [value]="o.value">{{o.text}}</option>
+                </select>
+              </ng-container>
+            </div>
+          </ng-container>
+          <div class="col-md-2">
+            <button class="btn btn-secondary w-100" (click)="resetFilters()">Limpar</button>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-striped table-hover rounded-2xl">
+            <thead class="table-light">
+              <tr>
+                <th>Razão Social</th>
+                <th>Nome Fantasia</th>
+                <th>CNPJ</th>
+                <th>Regional</th>
+                <th>Inauguração</th>
+                <th>Status</th>
+                <th class="text-center">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let clinic of filteredClinics | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+                <td>{{ clinic.razao_social }}</td>
+                <td>{{ clinic.nome_fantasia }}</td>
+                <td>{{ clinic.cnpj }}</td>
+                <td>{{ clinic.regional }}</td>
+                <td>{{ clinic.data_inauguracao | date:'dd/MM/yyyy' }}</td>
+                <td>
+                  <span class="badge" [ngClass]="clinic.ativa ? 'bg-success' : 'bg-danger'">
+                    {{ clinic.ativa ? 'Ativa' : 'Inativa' }}
+                  </span>
+                </td>
+                <td class="text-center">
+                  <button class="btn btn-sm btn-outline-primary me-1" (click)="onEdit(clinic)">
+                    <i class="bi bi-pencil-fill">Editar</i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger" style="margin-left: 10px;" (click)="onDelete(clinic)">
+                    <i class="bi bi-trash-fill">Apagar</i>
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf="filteredClinics.length === 0">
+                <td colspan="7" class="text-center">Nenhum registro encontrado</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <pagination-controls
+          [autoHide]="true"
+          [maxSize]="5"
+          (pageChange)="currentPage = $event"
+          class="d-flex justify-content-center mt-3">
+        </pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>
